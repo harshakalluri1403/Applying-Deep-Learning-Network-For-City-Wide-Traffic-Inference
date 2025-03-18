@@ -1,0 +1,351 @@
+/* App.css - Traffic Prediction System Styling - Compact Layout */
+
+/* Global Styles & Typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary: #0a192f;
+  --secondary: #172a46;
+  --accent: #64ffda;
+  --text-primary: #e6f1ff;
+  --text-secondary: #8892b0;
+  --bg-light: #233554;
+  --bg-lighter: #2a3e61;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --glow: 0 0 8px rgba(100, 255, 218, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--primary);
+  color: var(--text-primary);
+  line-height: 1.2;
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Stylish background grid */
+body:before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(var(--primary), var(--primary)),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+              linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  z-index: -1;
+}
+
+/* Main Layout */
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+.m-container{
+  display: flex;
+
+}
+.container {
+  margin: 0.25rem 0;
+  background-color: var(--secondary);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: row;
+  height: 70vh;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(100, 255, 218, 0.1);
+}
+
+/* Main Heading */
+h1 {
+  width: 100%;
+  text-align: center;
+  margin: 0.25rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+  padding: 0.5rem;
+  border-bottom: 2px solid rgba(100, 255, 218, 0.3);
+}
+
+/* Form Container Styles */
+.form-container {
+  flex: 2;
+  min-width: 250px;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.1rem;
+  font-weight: 500;
+  color: var(--accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  background-color: var(--bg-light);
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+
+input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.submitBtn {
+  background-color: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.submitBtn:hover {
+  background-color: rgba(100, 255, 218, 0.1);
+  box-shadow: var(--glow);
+}
+
+/* Layout for the first container */
+.container:nth-of-type(1) {
+  display: flex;
+  justify-content: space-between;
+  height: 70vh; /* Adjusted height */
+}
+
+/* Date and Time Container */
+.datetime-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: var(--bg-lighter);
+  border-radius: 4px;
+  border-left: 2px solid var(--accent);
+  height: 100%;
+}
+
+.datetime-container p:nth-child(odd) {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.datetime-container p:nth-child(even) {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+/* Middle section with predictions and map */
+.container:nth-of-type(2) {
+  display: flex;
+  height: 40vh; /* Adjusted height */
+}
+
+/* Prediction Output Component */
+.prediction-output {
+  flex: 1;
+  min-width: 200px;
+  background-color: var(--bg-lighter);
+  border-radius: 4px;
+  padding: 0.75rem;
+  border-left: 2px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.prediction-output p {
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.prediction-output strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 0.2rem 0.4rem;
+  background-color: var(--secondary);
+  border-radius: 3px;
+  min-width: 60px;
+  text-align: center;
+  display: inline-block;
+}
+
+.path-info {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(100, 255, 218, 0.2);
+}
+
+/* Map Container */
+.map-container {
+  flex: 2;
+  min-width: 250px;
+  height: 100%;
+}
+
+/* Model metrics section */
+.container:nth-of-type(3) {
+  height: 10vh; /* Adjusted height */
+}
+
+/* Model Metrics */
+.model-metrics {
+  width: 100%;
+  background-color: var(--bg-lighter);
+  border-radius: 4px;
+  padding: 0.75rem;
+  border-left: 2px solid var(--accent);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.model-metrics p:first-child {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+/* Weather section */
+.container:nth-of-type(4) {
+  height: 30vh; /* Adjusted height */
+}
+
+/* Weather Component */
+.weather-container {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.weather-card {
+  flex: 1;
+  min-width: 180px;
+  background-color: var(--bg-lighter);
+  border-radius: 4px;
+  padding: 0.75rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(100, 255, 218, 0.1);
+  height: 100%;
+}
+
+.weather-card h3 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weather-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.weather-emoji {
+  font-size: 1.5rem;
+}
+
+.weather-temp {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.weather-description {
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.weather-details {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Leaflet Map Customization */
+.leaflet-container {
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* Hide scrollbars but allow scrolling if necessary */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
