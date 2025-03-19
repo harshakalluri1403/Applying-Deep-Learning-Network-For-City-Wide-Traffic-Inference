@@ -390,7 +390,9 @@ class TrafficPredictionSystem:
             filename = model_files[0]
 
         model_path = os.path.join(MODEL_DIR, filename)
-        
+        # Add this line before loading the model
+        self.load_model_config(filename)
+
         # First, try to load the scalers
         scaler_loaded = self.load_scalers(filename)
         if not scaler_loaded:
@@ -489,6 +491,17 @@ class TrafficPredictionSystem:
             print(f"Error building model: {e}")
             return None
 
+    def save_model_config(self, timestamp):
+        """Save model configuration including feature columns"""
+        config = {
+            'feature_columns': self.feature_columns,
+            'additional_features': self.additional_features,
+            'sequence_length': self.sequence_length
+        }
+        config_path = os.path.join(MODEL_DIR, f"traffic_model_{timestamp}_config.json")
+        with open(config_path, 'w') as f:
+            json.dump(config, f)
+        print(f"Model configuration saved to {config_path}")
 
     def save_scalers(self, timestamp):
         """Save scalers to disk"""
@@ -805,7 +818,9 @@ class TrafficPredictionSystem:
                                     self.get_inverse_transformed(y_pred))
             
             print(f"Model saved to {model_path}")
-            
+            # Add this line after saving the model
+            self.save_model_config(timestamp)
+
             return history, metrics_data
             
         except Exception as e:
@@ -888,48 +903,29 @@ class TrafficPredictionSystem:
             y_speed_inv, y_flow_inv, y_occ_inv, y_time_inv
         ))
 
-    def load_model(system):
-        print("\nLoad Existing Model")
-        print("-" * 40)
+    def load_model_config(self, model_filename):
+        """Load model configuration including feature columns"""
+        timestamp = model_filename.replace("traffic_model_", "").replace(".keras", "").replace(".h5", "")
+        config_path = os.path.join(MODEL_DIR, f"traffic_model_{timestamp}_config.json")
         
-        model_files = [f for f in os.listdir(MODEL_DIR) if f.endswith('.keras') or f.endswith('.h5')]
-        
-        if not model_files:
-            print("No existing models found. Please train a new model first.")
+        if os.path.exists(config_path):
+            try:
+                with open(config_path, 'r') as f:
+                    config = json.load(f)
+                    self.feature_columns = config['feature_columns']
+                    self.additional_features = config['additional_features']
+                    self.sequence_length = config['sequence_length']
+                    self.n_features = len(self.feature_columns) + len(self.additional_features)
+                print(f"Model configuration loaded from {config_path}")
+                return True
+            except Exception as e:
+                print(f"Error loading model configuration: {e}")
+                return False
+        else:
+            print(f"No configuration found at {config_path}")
+            print("Using default feature configuration")
             return False
-        
-        print("\nAvailable models:")
-        for i, model_file in enumerate(model_files, 1):
-            modified_time = datetime.datetime.fromtimestamp(
-                os.path.getmtime(os.path.join(MODEL_DIR, model_file))
-            ).strftime("%Y-%m-%d %H:%M:%S")
-            size_mb = os.path.getsize(os.path.join(MODEL_DIR, model_file)) / (1024*1024)
-            print(f"{i}. {model_file}")
-            print(f"   Last modified: {modified_time}")
-            print(f"   Size: {size_mb:.2f} MB")
-        
-        try:
-            model_choice = input("\nEnter model number (or press Enter for most recent): ")
-            
-            if model_choice.strip():
-                idx = int(model_choice) - 1
-                if 0 <= idx < len(model_files):
-                    model_filename = model_files[idx]
-                else:
-                    print("Invalid model number.")
-                    return False
-            else:
-                model_filename = model_files[0]  # Most recent model
-            
-            # Directly call the method on the system object with the filename
-            return system.load_trained_model(model_filename)
-            
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-            return False
-        except Exception as e:
-            print(f"Error loading model: {e}")
-            return False
+
 
 
 
