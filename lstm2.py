@@ -730,8 +730,7 @@ class TrafficPredictionSystem:
         print(f"Rebuilding model with {self.n_features} features")
         self.model = None  # Clear the existing model
         self.build_model() 
-        
-        # Rest of your function remains the same...
+
 
         
         try:
