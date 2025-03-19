@@ -1374,50 +1374,7 @@ class TrafficPredictor:
             "weather_conditions": weather_features,
             "alternative_paths": paths_info
         }
-    def _apply_weather_adjustments(self, predictions, weather_features):
-        """Apply sophisticated weather adjustments to predictions"""
-        # Base adjustment factors
-        speed_adjustment = 1.0
-        flow_adjustment = 1.0
-        occupancy_adjustment = 1.0
-        
-        # Temperature effects
-        temp = weather_features['temperature']
-        if temp < 0:  # Cold weather
-            speed_adjustment *= max(0.8, 1.0 - abs(temp) * 0.01)
-        elif temp > 30:  # Hot weather
-            speed_adjustment *= max(0.9, 1.0 - (temp - 30) * 0.005)
-        
-        # Precipitation effects
-        precip = weather_features['precipitation']
-        if precip > 0:  # Any precipitation
-            # Non-linear effect: light rain has less impact than heavy rain
-            rain_factor = min(0.3, precip * 0.1)  # Max 30% reduction for heavy rain
-            speed_adjustment *= (1.0 - rain_factor)
-            flow_adjustment *= (1.0 - rain_factor * 0.5)
-            occupancy_adjustment *= (1.0 + rain_factor)
-        
-        # Wind effects
-        wind = weather_features['wind_speed']
-        if wind > 20:  # Strong wind
-            wind_factor = min(0.2, (wind - 20) * 0.01)
-            speed_adjustment *= (1.0 - wind_factor)
-        
-        # Humidity effects (high humidity can affect visibility)
-        humidity = weather_features['humidity']
-        if humidity > 85:  # High humidity
-            humidity_factor = min(0.1, (humidity - 85) * 0.005)
-            speed_adjustment *= (1.0 - humidity_factor)
-        
-        # Apply adjustments to predictions
-        predictions[:, 0] *= speed_adjustment  # Adjust speed
-        predictions[:, 1] *= flow_adjustment  # Adjust flow
-        predictions[:, 2] *= occupancy_adjustment  # Adjust occupancy
-        
-        # Recalculate ETA based on adjusted speed if needed
-        # This depends on how ETA is calculated in your model
-        
-        return predictions
+
 
     def _find_shortest_path(self, start_detector, end_detector):
         """Find the shortest path between two detectors"""
@@ -1902,75 +1859,7 @@ def display_prediction_with_weather(result):
             impact = min(100, weather['precipitation'] * 10)
         print(f"Weather Impact: {impact:.1f}%")
     
-    # Create visualization
-    try:
-        plt.figure(figsize=(15, 10))
-        
-        # 1. Path visualization
-        plt.subplot(2, 2, 1)
-        path_length = len(result['path'])
-        plt.plot(range(path_length), [1] * path_length, 'bo-')
-        for i, node in enumerate(result['path']):
-            plt.text(i, 1.1, str(node), ha='center')
-        plt.title('Route Path')
-        plt.xticks([])
-        plt.yticks([])
-        
-        # 2. Speed with weather impact
-        plt.subplot(2, 2, 2)
-        base_speed = result['predicted_speed_kmh']
-        plt.bar(['Predicted Speed'], [base_speed], color='skyblue')
-        
-        # Add weather impact indicator
-        if impact > 0:
-            plt.bar(['Weather Impact'], [impact/100 * base_speed], color='salmon', alpha=0.7)
-            plt.axhline(y=base_speed, color='red', linestyle='--')
-        
-        plt.title('Speed Prediction with Weather Impact')
-        plt.ylabel('Speed (km/h)')
-        
-        # 3. Weather conditions
-        plt.subplot(2, 2, 3)
-        weather_labels = ['Temperature', 'Precipitation', 'Wind', 'Humidity']
-        weather_values = [
-            weather['temperature'],
-            weather['precipitation'],
-            weather['wind_speed'],
-            weather['humidity']
-        ]
-        colors = ['red', 'blue', 'green', 'purple']
-        plt.bar(weather_labels, weather_values, color=colors)
-        plt.title('Weather Conditions')
-        
-        # 4. ETA visualization
-        plt.subplot(2, 2, 4)
-        eta_minutes = result['eta_minutes']
-        
-        # Create a simple clock visualization
-        clock = plt.Circle((0.5, 0.5), 0.4, fill=False)
-        plt.gca().add_patch(clock)
-        
-        # Add hour and minute hands
-        hours = eta_minutes / 60
-        hour_angle = (hours % 12) * 30 * np.pi/180
-        min_angle = (eta_minutes % 60) * 6 * np.pi/180
-        
-        plt.plot([0.5, 0.5 + 0.3 * np.sin(hour_angle)], 
-                [0.5, 0.5 + 0.3 * np.cos(hour_angle)], 'k-', linewidth=3)
-        plt.plot([0.5, 0.5 + 0.35 * np.sin(min_angle)], 
-                [0.5, 0.5 + 0.35 * np.cos(min_angle)], 'r-', linewidth=2)
-        
-        plt.text(0.5, 0.2, f"{int(eta_minutes // 60)}h {int(eta_minutes % 60)}m", 
-                ha='center', fontsize=12)
-        plt.title('Estimated Travel Time')
-        plt.xticks([])
-        plt.yticks([])
-        
-        plt.tight_layout()
-        plt.show()
-        
-    except Exception as e:
-        print(f"Could not create visualization: {e}")
+ 
 
 def view_metrics(preprocessor):
     """View model metrics"""
