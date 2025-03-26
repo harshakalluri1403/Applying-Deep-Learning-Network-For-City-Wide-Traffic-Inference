@@ -1,0 +1,1 @@
+{"feature_columns": ["interval", "flow", "occ", "error", "estimated_speed", "hour_sin", "hour_cos", "day_sin", "day_cos", "traffic_density"], "additional_features": ["distance", "time_of_day", "day_of_week"], "sequence_length": 12}

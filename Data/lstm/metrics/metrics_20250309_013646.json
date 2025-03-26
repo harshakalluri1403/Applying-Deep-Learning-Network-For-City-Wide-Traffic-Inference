@@ -1,0 +1,14 @@
+{
+    "timestamp": "20250309_013646",
+    "epochs_trained": 1,
+    "max_epochs": 1,
+    "patience": 10,
+    "final_train_loss": 0.009336008690297604,
+    "final_val_loss": 0.0017385140527039766,
+    "model_metrics": {
+        "mse": 10725867.0,
+        "rmse": 3275.036865234375,
+        "mae": 1430.2882080078125,
+        "r2_score": 0.6829004287719727
+    }
+}

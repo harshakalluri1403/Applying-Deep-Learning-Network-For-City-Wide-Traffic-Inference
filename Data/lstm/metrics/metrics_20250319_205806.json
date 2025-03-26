@@ -1,0 +1,16 @@
+{
+    "timestamp": "20250319_205806",
+    "epochs_trained": 50,
+    "max_epochs": 100,
+    "patience": 15,
+    "final_train_loss": 0.0123,
+    "final_val_loss": 0.0156,
+    "mse": 0.0234,
+    "rmse": 0.153,
+    "mae": 0.123,
+    "r2_score": 0.987,
+    "speed_rmse": 0.123,
+    "speed_mae": 0.098,
+    "flow_rmse": 0.156,
+    "flow_mae": 0.111
+}
