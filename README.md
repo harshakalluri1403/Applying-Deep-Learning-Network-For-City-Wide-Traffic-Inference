@@ -93,4 +93,5 @@ Visualizations of model outputs and UI screens are available in Figures 8.1–8.
 ## 📬 Contact
 
 For questions or collaborations, feel free to reach out!
-
+## License 
+This project is licensed under the [MIT License](https://github.com/harshakalluri1403/Applying-Deep-Learning-Network-For-City-Wide-Traffic-Inference/blob/10fe16b692252bc59c2c92f2ef213d88771b7165/LICENSE).
